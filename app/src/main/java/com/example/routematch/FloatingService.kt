@@ -58,52 +58,57 @@ class FloatingService : Service() {
         // SECURITY: Environment integrity check
         if (!SecurityUtils.isEnvironmentSafe(this)) {
             Log.w(TAG, "SECURITY: Unsafe environment detected (Xposed/Frida/Emulator)")
-            // Core functionality disabled in production builds
-            // For debug builds, allow with warning
         }
 
-        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+        try {
+            windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
-        // Foreground service notification (required for API 26+)
-        startForegroundServiceWithNotification()
+            // Show persistent notification (not foreground - more compatible)
+            showPersistentNotification()
 
-        createFloatingView()
-        registerReceiver(
-            orderUpdateReceiver,
-            IntentFilter("com.example.routematch.ORDER_UPDATE")
-        )
-        refreshCount()
+            createFloatingView()
+            registerReceiver(
+                orderUpdateReceiver,
+                IntentFilter("com.example.routematch.ORDER_UPDATE")
+            )
+            refreshCount()
+            Log.d(TAG, "FloatingService started successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to start FloatingService", e)
+        }
     }
 
-    private fun startForegroundServiceWithNotification() {
-        val channelId = "route_match_foreground"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = android.app.NotificationChannel(
-                channelId,
-                "顺路单助手",
-                android.app.NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "悬浮窗后台服务"
-                setShowBadge(false)
+    private fun showPersistentNotification() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channelId = "route_match_channel"
+                val manager = getSystemService(android.app.NotificationManager::class.java)
+                if (manager != null) {
+                    val channel = android.app.NotificationChannel(
+                        channelId,
+                        "顺路单助手",
+                        android.app.NotificationManager.IMPORTANCE_LOW
+                    ).apply {
+                        description = "后台运行状态"
+                        setShowBadge(false)
+                    }
+                    manager.createNotificationChannel(channel)
+
+                    val notification = android.app.Notification.Builder(this, channelId)
+                        .setContentTitle("顺路单助手")
+                        .setContentText("后台运行中")
+                        .setSmallIcon(android.R.drawable.ic_popup_reminder)
+                        .setOngoing(true)
+                        .build()
+
+                    // Use NOTIFICATION service, not startForeground
+                    val nm = getSystemService(android.app.NotificationManager::class.java)
+                    nm?.notify(2, notification)
+                }
             }
-            val manager = getSystemService(android.app.NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
+        } catch (e: Exception) {
+            Log.w(TAG, "Notification not supported", e)
         }
-
-        val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            android.app.Notification.Builder(this, channelId)
-        } else {
-            @Suppress("DEPRECATION")
-            android.app.Notification.Builder(this)
-                .setPriority(android.app.Notification.PRIORITY_LOW)
-        }.apply {
-            setContentTitle("顺路单助手")
-            setContentText("后台运行中")
-            setSmallIcon(android.R.drawable.ic_popup_reminder)
-            setOngoing(true)
-        }.build()
-
-        startForeground(1, notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

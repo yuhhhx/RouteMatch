@@ -16,10 +16,6 @@
     <!-- For vibration on order received -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Foreground service -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-
     <!-- No storage permissions - all data in internal private directory -->
     <!-- SECURITY: No READ/WRITE_EXTERNAL_STORAGE -->
 
@@ -67,8 +63,7 @@
         <!-- Floating overlay service -->
         <service
             android:name=".FloatingService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
+            android:exported="false" />
 
         <!-- Required for EncryptedSharedPreferences / AndroidKeyStore -->
         <!-- SECURITY: AES-GCM key stored in hardware-backed AndroidKeyStore -->

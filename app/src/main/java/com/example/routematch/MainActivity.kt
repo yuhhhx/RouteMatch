@@ -203,13 +203,7 @@ class MainActivity : AppCompatActivity() {
     private fun startFloatingService() {
         val intent = Intent(this, FloatingService::class.java)
         intent.action = "ACTION_START"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
-        // Delay finish to ensure service starts before activity closes
-        // (Some Chinese phones kill the process too quickly)
+        startService(intent)
         android.os.Handler(mainLooper).postDelayed({
             try { finish() } catch (_: Exception) {}
         }, 500)
@@ -219,11 +213,7 @@ class MainActivity : AppCompatActivity() {
         try {
             val intent = Intent(this, FloatingService::class.java)
             intent.action = "ACTION_START"
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(intent)
-            } else {
-                startService(intent)
-            }
+            startService(intent)
         } catch (_: Exception) { }
     }
 
