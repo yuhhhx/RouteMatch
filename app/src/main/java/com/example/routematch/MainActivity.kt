@@ -102,6 +102,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updatePermissionStatus()
+        // Auto-start service if all permissions granted (handles re-open)
+        if (permissionPages.all { it.isGranted }) {
+            startFloatingServiceIfNeeded()
+        }
     }
 
     private fun updatePermissionStatus() {
@@ -198,12 +202,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun startFloatingService() {
         val intent = Intent(this, FloatingService::class.java)
+        intent.action = "ACTION_START"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent)
         } else {
             startService(intent)
         }
-        finish()
+        // Delay finish to ensure service starts before activity closes
+        // (Some Chinese phones kill the process too quickly)
+        android.os.Handler(mainLooper).postDelayed({
+            try { finish() } catch (_: Exception) {}
+        }, 500)
+    }
+
+    private fun startFloatingServiceIfNeeded() {
+        try {
+            val intent = Intent(this, FloatingService::class.java)
+            intent.action = "ACTION_START"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent)
+            } else {
+                startService(intent)
+            }
+        } catch (_: Exception) { }
     }
 
     data class PermissionPage(
