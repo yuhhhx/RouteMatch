@@ -179,11 +179,11 @@ object SecurityUtils {
         for (prop in EMULATOR_PROPS) {
             try {
                 val process = Runtime.getRuntime().exec("getprop $prop")
-                BufferedReader(InputStreamReader(process.inputStream)).use { reader ->
-                    val value = reader.readLine() ?: continue
-                    if (value.isNotEmpty() && value != "0") {
-                        return true
-                    }
+                val reader = BufferedReader(InputStreamReader(process.inputStream))
+                val value = reader.readLine()
+                reader.close()
+                if (value != null && value.isNotEmpty() && value != "0") {
+                    return true
                 }
             } catch (e: Exception) {
                 // Property not accessible
