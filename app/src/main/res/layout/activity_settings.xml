@@ -84,8 +84,7 @@
                     android:valueFrom="100"
                     android:valueTo="5000"
                     android:value="1000"
-                    app:labelBehavior="floating"
-                    app:labelFormat="%.0f 米" />
+                    app:labelBehavior="floating" />
 
                 <TextView
                     android:id="@+id/tvDetourValue"
@@ -103,8 +102,7 @@
                     android:valueFrom="5"
                     android:valueTo="90"
                     android:value="45"
-                    app:labelBehavior="floating"
-                    app:labelFormat="%.0f 度" />
+                    app:labelBehavior="floating" />
 
                 <TextView
                     android:id="@+id/tvAngleValue"
