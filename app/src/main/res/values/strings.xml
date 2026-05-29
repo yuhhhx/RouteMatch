@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">顺路单助手</string>
+    <string name="settings_title">设置</string>
+
+    <!-- Permission guide -->
+    <string name="perm_notification_title">通知读取权限</string>
+    <string name="perm_notification_desc">监听美团、饿了么的新订单通知，提取地址信息</string>
+    <string name="perm_overlay_title">悬浮窗权限</string>
+    <string name="perm_overlay_desc">在屏幕上显示顺路单数量提示</string>
+    <string name="perm_location_title">定位权限</string>
+    <string name="perm_location_desc">获取当前位置，计算与订单的顺路程度</string>
+    <string name="perm_battery_title">忽略电池优化</string>
+    <string name="perm_battery_desc">保证后台服务稳定运行，不漏接订单</string>
+
+    <string name="btn_grant">前往开启</string>
+    <string name="btn_next">下一步</string>
+    <string name="btn_start">开始使用</string>
+
+    <!-- Notification listener -->
+    <string name="listener_enabled">通知监听已开启</string>
+    <string name="listener_disabled">通知监听未开启</string>
+
+    <!-- Floating window -->
+    <string name="floating_order_count">%d 个顺路单</string>
+    <string name="floating_no_orders">暂无顺路单</string>
+    <string name="floating_pin_title">验证 PIN</string>
+    <string name="floating_pin_error">PIN 错误</string>
+    <string name="floating_no_pin">请先在设置中设置 PIN</string>
+
+    <!-- Settings -->
+    <string name="settings_pin_title">安全 PIN</string>
+    <string name="settings_pin_summary">查看订单详情时需要验证的 4-6 位数字 PIN</string>
+    <string name="settings_pin_set">设置 PIN</string>
+    <string name="settings_pin_change">修改 PIN</string>
+    <string name="settings_pin_remove">移除 PIN</string>
+    <string name="settings_pin_hint">输入 4-6 位数字 PIN</string>
+    <string name="settings_pin_confirm">确认 PIN</string>
+    <string name="settings_pin_mismatch">两次输入的 PIN 不一致</string>
+    <string name="settings_pin_too_short">PIN 长度应在 4-6 位之间</string>
+
+    <string name="settings_match_title">顺路匹配设置</string>
+    <string name="settings_max_detour">最大绕路距离（米）</string>
+    <string name="settings_max_angle">最大方向夹角（度）</string>
+    <string name="settings_jitter_title">操作间隔随机抖动</string>
+    <string name="settings_jitter_summary">在所有操作间隔中加入 ±20% 随机延迟，防检测</string>
+
+    <string name="settings_location_title">位置设置</string>
+    <string name="settings_manual_location">手动固定位置</string>
+    <string name="settings_manual_location_summary">开启后使用手动设置的位置代替 GPS</string>
+    <string name="settings_manual_lat">纬度</string>
+    <string name="settings_manual_lng">经度</string>
+
+    <string name="settings_tts_title">语音播报</string>
+    <string name="settings_tts_summary">新订单到达时语音播报</string>
+    <string name="settings_tts_test">测试语音</string>
+
+    <!-- Order info -->
+    <string name="order_from_meituan">美团订单</string>
+    <string name="order_from_eleme">饿了么订单</string>
+    <string name="order_amount">金额: ¥%.2f</string>
+    <string name="order_distance">配送距离: %.0f 米</string>
+    <string name="order_pickup">取货: %s</string>
+    <string name="order_delivery">送达: %s</string>
+    <string name="address_hidden">地址已隐藏，验证 PIN 后可查看</string>
+
+    <!-- Permission rationale -->
+    <string name="rationale_notification">请允许顺路单助手读取通知，以便监听新订单。找到\"顺路单助手\"并开启开关。</string>
+    <string name="rationale_overlay">请允许顺路单助手在其他应用上层显示，以便显示悬浮窗。</string>
+    <string name="rationale_location">请允许顺路单助手获取位置信息，以便计算顺路程度。</string>
+    <string name="rationale_battery">请允许顺路单助手忽略电池优化，以保证后台稳定运行。</string>
+
+    <!-- General -->
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+</resources>

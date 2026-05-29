@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Location permission (only when app is in use) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Floating window permission (checked at runtime) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Notification listener (declared in Security section) -->
+
+    <!-- Battery optimization (checked at runtime) -->
+
+    <!-- For vibration on order received -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Foreground service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!-- No storage permissions - all data in internal private directory -->
+    <!-- SECURITY: No READ/WRITE_EXTERNAL_STORAGE -->
+
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RouteMatch"
+        tools:targetApi="34">
+
+        <!-- Main permission guide activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.RouteMatch">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Settings activity -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/settings_title"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- SECURITY: NotificationListenerService - primary order capture mechanism -->
+        <!-- No AccessibilityService, no MediaProjection -->
+        <service
+            android:name=".NotificationListener"
+            android:exported="false"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- Floating overlay service -->
+        <service
+            android:name=".FloatingService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Required for EncryptedSharedPreferences / AndroidKeyStore -->
+        <!-- SECURITY: AES-GCM key stored in hardware-backed AndroidKeyStore -->
+
+    </application>
+
+</manifest>
